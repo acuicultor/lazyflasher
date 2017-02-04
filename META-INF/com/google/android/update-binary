@@ -61,9 +61,9 @@ umount() {
 }
 
 print "#######################################"
-print "#           kernel flasher            #"
-print "#      by jcadduono, version 5.1      #"
-print "#   add your own intro message here!  #"
+print "#        Radioactive Kernel           #"
+print "#                by                   #"
+print "#            acuicultor               #"
 print "#######################################"
 
 # Unpack the installer

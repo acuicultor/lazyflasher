@@ -1,12 +1,12 @@
 NAME ?= kernel-flasher
 
-VERSION ?= 5.1
+VERSION ?= 4.1
 
 DATE := $(shell date +'%Y%m%d-%H%M')
 
 ZIP := $(NAME)-$(VERSION)-$(DATE).zip
 
-EXCLUDE := Makefile README.md *.git* "$(NAME)-"*.zip*
+EXCLUDE := Makefile README.md *.git*
 
 all: $(ZIP)
 
