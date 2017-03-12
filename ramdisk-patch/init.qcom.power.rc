@@ -154,10 +154,10 @@ on property:sys.boot_completed=1
     write /sys/block/sda/queue/scheduler "maple"
     write /sys/block/sde/queue/scheduler "maple"
 
-    write /sys/block/dm-0/queue/read_ahead_kb 512
-    write /sys/block/dm-1/queue/read_ahead_kb 512
-    write /sys/block/sda/queue/read_ahead_kb 512
-    write /sys/block/sde/queue/read_ahead_kb 512
+    write /sys/block/dm-0/queue/read_ahead_kb 128
+    write /sys/block/dm-1/queue/read_ahead_kb 128
+    write /sys/block/sda/queue/read_ahead_kb 128
+    write /sys/block/sde/queue/read_ahead_kb 128
 
     # Update foreground and background cpusets
     write /dev/cpuset/top-app/cpus 0-3
@@ -189,6 +189,7 @@ on property:sys.boot_completed=1
     write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/boostpulse_duration 80000
     write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/timer_slack 20000
     write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/enable_prediction 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/fastlane 1
     
     # Configure governor settings for big cluster
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "blu_active"
@@ -206,6 +207,7 @@ on property:sys.boot_completed=1
     write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/boostpulse_duration 80000
     write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/timer_slack 20000
     write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/enable_prediction 1
+    write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/fastlane 1
     
     # Re-enable thermal and BCL hotplug
     write /sys/module/msm_thermal/core_control/enabled 1
