@@ -122,10 +122,10 @@ on property:sys.boot_completed=1
     write /sys/class/kgsl/kgsl-3d0/default_pwrlevel 6
     
     # Tweak IO performance after boot complete
-    write /sys/block/dm-0/queue/scheduler "noop"
-    write /sys/block/dm-1/queue/scheduler "noop"
-    write /sys/block/sda/queue/scheduler "noop"
-    write /sys/block/sde/queue/scheduler "noop"
+    write /sys/block/dm-0/queue/scheduler "cfq"
+    write /sys/block/dm-1/queue/scheduler "cfq"
+    write /sys/block/sda/queue/scheduler "cfq"
+    write /sys/block/sde/queue/scheduler "cfq"
 
     write /sys/block/dm-0/queue/read_ahead_kb 512
     write /sys/block/dm-1/queue/read_ahead_kb 512
