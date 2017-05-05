@@ -1,7 +1,10 @@
 # Radioactive extras credits to eng.stk
 
-on early-init	
-    # Tweak IO performance during boot up
+on early-init
+    # No Rainbow
+    setprop sys.rainbow.recovery 0
+	
+    # Tweak IO performance during boot up    
     write /sys/block/dm-0/queue/read_ahead_kb 2048
     write /sys/block/dm-1/queue/read_ahead_kb 2048
     write /sys/block/sda/queue/read_ahead_kb 2048
@@ -15,10 +18,18 @@ on boot
     write /dev/cpuset/background/cpus 0-3
     write /dev/cpuset/system-background/cpus 0-3
 
+    # add a cpuset for the camera daemon
+    mkdir /dev/cpuset/camera-daemon
+    write /dev/cpuset/camera-daemon/cpus 0-3
+    write /dev/cpuset/camera-daemon/mems 0
+    chown system system /dev/cpuset/camera-daemon
+    chown system system /dev/cpuset/camera-daemon/tasks
+    chmod 0664 /dev/cpuset/camera-daemon/tasks
+    
     # Enable sched boost
     write /proc/sys/kernel/sched_boost 1
 
-on property:sys.boot_completed=1
+on enable-low-power
     # Disable thermal bcl hotplug to switch governor
     write /sys/module/msm_thermal/core_control/enabled 0
     write /sys/devices/soc/soc:qcom,bcl/mode "disable"
@@ -109,15 +120,32 @@ on property:sys.boot_completed=1
 
     write /sys/module/lpm_levels/parameters/sleep_disabled "N"
 
-    # Set perfd properties
-    rm /data/system/perfd/default_values
-    setprop ro.min_freq_0 307200
-    setprop ro.min_freq_4 307200
-    start perfd
-
     # Change GPU initial power level from level 5 to level 6 for power savings
     write /sys/class/kgsl/kgsl-3d0/default_pwrlevel 6
-    
+
+    # Set perfd properties
+	rm /data/system/perfd/default_values
+	start perfd
+
+    # Starting io prefetcher service
+    start iop
+
+    setprop sys.post_boot.parsed 1
+
+on charger
+    write /sys/class/leds/button-backlight/brightness 0
+    write /sys/devices/system/cpu/cpu1/online 0
+    write /sys/devices/system/cpu/cpu2/online 0
+    write /sys/devices/system/cpu/cpu3/online 0
+    write /sys/module/msm_thermal/core_control/cpus_offlined 14
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
+    write /sys/module/lpm_levels/parameters/sleep_disabled 0
+    start dashd
+
+on class_start:late_start
+    trigger enable-low-power
+
+on property:sys.boot_completed=1
     # Tweak IO performance after boot complete
     write /sys/block/dm-0/queue/scheduler "cfq"
     write /sys/block/dm-1/queue/scheduler "cfq"
@@ -147,7 +175,7 @@ on property:sys.boot_completed=1
     write /sys/devices/soc/soc:qcom,bcl/hotplug_mask 0
     write /sys/devices/soc/soc:qcom,bcl/hotplug_soc_mask 0
     write /sys/devices/soc/soc:qcom,bcl/mode "enable"
-
+    
     # Configure governor settings for little cluster
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "dyninteractive"
    
@@ -160,18 +188,3 @@ on property:sys.boot_completed=1
     write /sys/devices/soc/soc:qcom,bcl/hotplug_mask 12
     write /sys/devices/soc/soc:qcom,bcl/hotplug_soc_mask 8
     write /sys/devices/soc/soc:qcom,bcl/mode "enable"
-
-    # Starting io prefetcher service
-    start iop
-
-	setprop sys.post_boot.parsed 1
-
-on charger
-    write /sys/class/leds/button-backlight/brightness 0
-    write /sys/devices/system/cpu/cpu1/online 0
-    write /sys/devices/system/cpu/cpu2/online 0
-    write /sys/devices/system/cpu/cpu3/online 0
-    write /sys/module/msm_thermal/core_control/cpus_offlined 14
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "conservative"
-    write /sys/module/lpm_levels/parameters/sleep_disabled 0
-    start dashd
