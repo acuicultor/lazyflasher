@@ -16,8 +16,8 @@ on property:sys.boot_completed=1
 on property:persist.spectrum.profile=0
     write /proc/sys/kernel/sched_boost 1
     write /sys/module/cpu_boost/parameters/input_boost_freq "0:1036800 2:1036800"
-    write /sys/module/cpu_boost/parameters/input_boost_ms 500
-	write /sys/module/cpu_boost/parameters/input_boost_enabled 0
+    write /sys/module/cpu_boost/parameters/input_boost_ms 150
+	write /sys/module/cpu_boost/parameters/input_boost_enabled 1
     write /sys/class/kgsl/kgsl-3d0/default_pwrlevel 7
     write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
     write /sys/class/kgsl/kgsl-3d0/devfreq/adrenoboost 0
