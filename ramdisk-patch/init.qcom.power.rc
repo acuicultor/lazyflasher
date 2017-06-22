@@ -185,6 +185,8 @@ on property:sys.boot_completed=1
     write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/timer_slack 20000
     write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/fastlane 1
     write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/fastlane_threshold 75
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 307200
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1516800
 
     # Configure governor settings for big cluster
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "blu_active"
