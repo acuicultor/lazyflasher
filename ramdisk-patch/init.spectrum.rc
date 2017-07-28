@@ -18,7 +18,7 @@ on property:persist.spectrum.profile=0
     write /sys/module/cpu_boost/parameters/input_boost_freq "0:460800 2:460800"
     write /sys/module/cpu_boost/parameters/input_boost_ms 20
 	write /sys/module/cpu_boost/parameters/input_boost_enabled 1
-    write /sys/class/kgsl/kgsl-3d0/default_pwrlevel 6
+    write /sys/class/kgsl/kgsl-3d0/default_pwrlevel 7
     write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
     write /sys/class/kgsl/kgsl-3d0/devfreq/adrenoboost 0
     write /sys/block/dm-0/queue/scheduler "maple"
