@@ -153,10 +153,10 @@ on class_start:late_start
 
 on property:sys.boot_completed=1
     # Tweak IO performance after boot complete
-    write /sys/block/dm-0/queue/scheduler "zen"
-    write /sys/block/dm-1/queue/scheduler "zen"
-    write /sys/block/sda/queue/scheduler "zen"
-    write /sys/block/sde/queue/scheduler "zen"
+    write /sys/block/dm-0/queue/scheduler "cfq"
+    write /sys/block/dm-1/queue/scheduler "cfq"
+    write /sys/block/sda/queue/scheduler "cfq"
+    write /sys/block/sde/queue/scheduler "cfq"
 
     write /sys/block/dm-0/queue/read_ahead_kb 512
     write /sys/block/dm-1/queue/read_ahead_kb 512
@@ -184,38 +184,59 @@ on property:sys.boot_completed=1
 	write /sys/module/cpu_boost/parameters/input_boost_enabled 1
 	
     # Configure governor settings for little cluster
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "blu_active"
-    write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/above_hispeed_delay 20000
-    write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/go_hispeed_load 90
-    write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/timer_rate 20000
-    write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/hispeed_freq 960000
-    write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/io_is_busy 1
-    write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/align_windows 1
-    write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/target_loads 80
-    write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/min_sample_time 40000
-    write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/timer_slack 20000
-    write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/fastlane 0
-    write /sys/devices/system/cpu/cpu0/cpufreq/blu_active/fastlane_threshold 50
-
+     # Configure governor settings for little cluster
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boostpulse
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_migration_notif 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay 10000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load 80
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate 20000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq 1286400
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/max_freq_hysteresis 99000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy 0
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads 80
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time 80000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_slack 80000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/ignore_hispeed_on_notif 1
+ 
     # Configure governor settings for big cluster
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "blu_active"
-    write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/above_hispeed_delay "20000 1400000:40000 1700000:20000 2100000:80000"
-    write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/go_hispeed_load 90
-    write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/timer_rate 20000
-    write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/hispeed_freq 1228800
-    write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/io_is_busy 1
-    write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/align_windows 1
-    write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/target_loads "85 1500000:90 1800000:70 2100000:95"
-    write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/min_sample_time 40000
-    write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/timer_slack 20000
-    write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/fastlane 0
-    write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/fastlane_threshold 50
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/boostpulse
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_migration_notif 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay "20000 1440000:20000 1747200:20000 2150400:39000"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load 80
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate 20000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq 1440000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/max_freq_hysteresis 99000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy 0
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads "80 1516800:90 1824000:80 2150400:95"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time 80000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_slack 80000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/ignore_hispeed_on_notif 1
 
     # Enable fingerprint boost
     write /sys/kernel/fp_boost/enabled 1
 
     # Enable adreno idler
     write /sys/module/adreno_idler/parameters/adreno_idler_active Y
+
+    # Disable some wakelocks
+    write /sys/module/wakeup/parameters/enable_wlan_rx_wake_ws 0
+    write /sys/module/wakeup/parameters/enable_wlan_ctrl_wake_ws 0
+    write /sys/module/wakeup/parameters/enable_wlan_wake_ws 0
+    write /sys/module/wakeup/parameters/enable_msm_hsic_ws 0
+    write /sys/module/wakeup/parameters/enable_qcom_rx_wakelock_ws 0
+    write /sys/module/wakeup/parameters/enable_netlink_ws 0
+    write /sys/module/wakeup/parameters/enable_ipa_ws 0
+    write /sys/module/wakeup/parameters/enable_timerfd_ws 0
+
+    # Backlight dimmer
+    write /sys/module/mdss_fb/parameters/backlight_dimmer 1
+
+    # Enable Laptop Mode
+    write /proc/sys/vm/laptop_mode 1
 
     # Set default Freqs
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 307200
@@ -230,4 +251,4 @@ on property:sys.boot_completed=1
     write /sys/devices/soc/soc:qcom,bcl/hotplug_soc_mask 0
     write /sys/devices/soc/soc:qcom,bcl/mode "enable"
 
-	write /dev/kmsg "Boot completed "
+    write /dev/kmsg "Boot completed "
