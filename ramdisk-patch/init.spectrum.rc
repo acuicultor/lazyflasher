@@ -15,16 +15,16 @@ on property:sys.boot_completed=1
 # Balance (default profile)
 on property:persist.spectrum.profile=0
     write /proc/sys/kernel/sched_boost 1
-    write /sys/module/cpu_boost/parameters/input_boost_freq "0:460800 2:460800"
-    write /sys/module/cpu_boost/parameters/input_boost_ms 20
+    write /sys/module/cpu_boost/parameters/input_boost_freq "0:537600 2:537600"
+    write /sys/module/cpu_boost/parameters/input_boost_ms 25
 	write /sys/module/cpu_boost/parameters/input_boost_enabled 1
     write /sys/class/kgsl/kgsl-3d0/default_pwrlevel 7
     write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
     write /sys/class/kgsl/kgsl-3d0/devfreq/adrenoboost 0
-    write /sys/block/dm-0/queue/scheduler "zen"
-    write /sys/block/dm-1/queue/scheduler "zen"
-    write /sys/block/sda/queue/scheduler "zen"
-    write /sys/block/sde/queue/scheduler "zen"
+    write /sys/block/dm-0/queue/scheduler "cfq"
+    write /sys/block/dm-1/queue/scheduler "cfq"
+    write /sys/block/sda/queue/scheduler "cfq"
+    write /sys/block/sde/queue/scheduler "cfq"
     write /sys/block/dm-0/queue/read_ahead_kb 256
     write /sys/block/dm-1/queue/read_ahead_kb 256
     write /sys/block/sda/queue/read_ahead_kb 256
@@ -41,24 +41,26 @@ on property:persist.spectrum.profile=0
     write /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time 19000
     write /sys/devices/system/cpu/cpu0/cpufreq/interactive/max_freq_hysteresis 79000
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 307200
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/ignore_hispeed_on_notif 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/ignore_hispeed_on_notif 0
     write /sys/devices/system/cpu/cpu0/cpufreq/interactive/enable_prediction 1
     write /sys/devices/system/cpu/cpu0/cpufreq/interactive/powersave_bias 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/screen_off_maxfreq 384000
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/use_sched_load 1
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/use_migration_notif 1
-    write /sys/devices/system/cpu/cpu2/cpufreq/interactive/above_hispeed_delay "19000 1400000:39000 1700000:19000 2100000:79000"
+    write /sys/devices/system/cpu/cpu2/cpufreq/interactive/above_hispeed_delay "19000 1400000:39000 1700000:39000 2100000:79000"
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/go_hispeed_load 90
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/timer_rate 20000
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/hispeed_freq 1248000
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/io_is_busy 1
-    write /sys/devices/system/cpu/cpu2/cpufreq/interactive/target_loads "85 1500000:90 1800000:70 2100000:95"
+    write /sys/devices/system/cpu/cpu2/cpufreq/interactive/target_loads "85 1500000:90 1800000:95 2100000:95"
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/min_sample_time 19000
-    write /sys/devices/system/cpu/cpu2/cpufreq/interactive/max_freq_hysteresis 79000
+    write /sys/devices/system/cpu/cpu2/cpufreq/interactive/max_freq_hysteresis 39000
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 307200
-    write /sys/devices/system/cpu/cpu2/cpufreq/interactive/ignore_hispeed_on_notif 1
+    write /sys/devices/system/cpu/cpu2/cpufreq/interactive/ignore_hispeed_on_notif 0
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/enable_prediction 1
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/powersave_bias 1
+    write /sys/devices/system/cpu/cpu2/cpufreq/interactive/screen_off_maxfreq 384000
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 307200
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1516800
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 307200
@@ -180,7 +182,6 @@ on property:persist.spectrum.profile=3
     write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/timer_slack 20000
     write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/fastlane 1
     write /sys/devices/system/cpu/cpu2/cpufreq/blu_active/fastlane_threshold 30
-    write /sys/module/adreno_idler/parameters/adreno_idler_active N
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 307200
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1593600
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 307200

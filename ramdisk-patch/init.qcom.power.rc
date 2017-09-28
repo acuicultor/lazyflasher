@@ -71,7 +71,7 @@ on enable-low-power
     write /sys/module/msm_thermal/core_control/enabled 1
 
     # Input boost configuration
-    write /sys/module/cpu_boost/parameters/input_boost_freq "0:1324800 2:1324800"
+    write /sys/module/cpu_boost/parameters/input_boost_freq "0:537600 2:537600"
     write /sys/module/cpu_boost/parameters/input_boost_ms 25
 
     # Setting b.L scheduler parameters
@@ -133,10 +133,10 @@ on property:init.svc.recovery=running
 
 on property:dev.bootcomplete=1
     # Tweak IO performance after boot complete
-    write /sys/block/dm-0/queue/scheduler "zen"
-    write /sys/block/dm-1/queue/scheduler "zen"
-    write /sys/block/sda/queue/scheduler "zen"
-    write /sys/block/sde/queue/scheduler "zen"
+    write /sys/block/dm-0/queue/scheduler "cfq"
+    write /sys/block/dm-1/queue/scheduler "cfq"
+    write /sys/block/sda/queue/scheduler "cfq"
+    write /sys/block/sde/queue/scheduler "cfq"
  
     write /sys/block/dm-0/queue/read_ahead_kb 512
     write /sys/block/dm-1/queue/read_ahead_kb 512
