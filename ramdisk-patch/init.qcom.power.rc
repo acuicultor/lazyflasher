@@ -43,7 +43,7 @@ on enable-low-power
     write /sys/devices/system/cpu/cpu0/cpufreq/interactive/ignore_hispeed_on_notif 0
     write /sys/devices/system/cpu/cpu0/cpufreq/interactive/enable_prediction 1
     write /sys/devices/system/cpu/cpu0/cpufreq/interactive/powersave_bias 1
-    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/screen_off_maxfreq 384000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/screen_off_maxfreq 537600
   
     # Online CPU2
     write /sys/devices/system/cpu/cpu2/online 1
@@ -64,7 +64,7 @@ on enable-low-power
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/ignore_hispeed_on_notif 0
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/enable_prediction 1
     write /sys/devices/system/cpu/cpu2/cpufreq/interactive/powersave_bias 1
-    write /sys/devices/system/cpu/cpu2/cpufreq/interactive/screen_off_maxfreq 384000
+    write /sys/devices/system/cpu/cpu2/cpufreq/interactive/screen_off_maxfreq 537600
 
     
     # Re-enable thermal hotplug
@@ -133,10 +133,10 @@ on property:init.svc.recovery=running
 
 on property:dev.bootcomplete=1
     # Tweak IO performance after boot complete
-    write /sys/block/dm-0/queue/scheduler "cfq"
-    write /sys/block/dm-1/queue/scheduler "cfq"
-    write /sys/block/sda/queue/scheduler "cfq"
-    write /sys/block/sde/queue/scheduler "cfq"
+    write /sys/block/dm-0/queue/scheduler "zen"
+    write /sys/block/dm-1/queue/scheduler "zen"
+    write /sys/block/sda/queue/scheduler "zen"
+    write /sys/block/sde/queue/scheduler "zen"
  
     write /sys/block/dm-0/queue/read_ahead_kb 512
     write /sys/block/dm-1/queue/read_ahead_kb 512
