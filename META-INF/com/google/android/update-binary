@@ -101,8 +101,57 @@ setperm 0755 0755 "$bin"
 
 print "Running boot image patcher..."
 sh boot-patcher.sh || abort
+print ""
+print ""
 
 print "Boot image patching complete"
+print ""
+
+print "Creating init.d..."
+mkdir $root/system/etc/init.d;
+setperm 0755 0755 $root/system/etc/init.d;
+print ""
+
+print "init.d creation complete"
+print ""
+
+print "Installing UKM..."
+rm -rf /data/UKM/*;
+rm -rf /system/etc/init.d/UKM;
+rm -rf /system/xbin/uci;
+rm -rf /system/addon.d/UKM.sh;
+cp -fvr /tmp/kernel-flasher/data/* /data;
+cp -f /tmp/kernel-flasher/data/UKM/uci /system/xbin/uci;
+cp -f /tmp/kernel-flasher/data/UKM/UKM /system/etc/init.d/UKM;
+cp -f /tmp/kernel-flasher/data/UKM/UKM /system/addon.d/UKM.sh;
+setperm 0755 0755 /data/UKM;
+setperm 0755 0755 /system/xbin/uci;
+setperm 0755 0755 /system/etc/init.d/UKM;
+print ""
+
+print "UKM installation complete"
+
+print"Installing busybox..."
+cp -f /tmp/kernel-flasher/tools/busybox /system/xbin/busybox;
+setperm 0755 0755 /system/xbin/busybox;
+print ""
+
+print "Busybox installation complete"
+print ""
+
+print "Installing Synapse..."
+mkdir $root/system/app/Synapse;
+setperm 0755 0755 $root/system/app/Synapse;
+cp -f /tmp/kernel-flasher/system/app/Synapse/Synapse.apk /system/app/Synapse/Synapse.apk;
+setperm 0755 0644 $root/system/app/Synapse;
+print""
+
+print "Synapse installation complete"
+print ""
+
+print ""
 
 cleanup
 print "Done installing!"
+print ""
+print ""
